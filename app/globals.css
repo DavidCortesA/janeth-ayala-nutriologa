@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light Mode Colors - Rosa palette */
+  --color-primary: #d946a6;
+  --color-primary-light: #ec4899;
+  --color-secondary: #f472b6;
+  --color-accent: #fb923c;
+  --color-bg: #fef3f9;
+  --color-card: #ffffff;
+  --color-text: #1f1f1f;
+  --color-text-light: #6b7280;
+  --color-border: #fce7f3;
+  
+  /* Dark Mode Colors */
+  --color-dark-primary: #ec4899;
+  --color-dark-primary-light: #f472b6;
+  --color-dark-secondary: #d946a6;
+  --color-dark-accent: #fb923c;
+  --color-dark-bg: #0f0a0d;
+  --color-dark-card: #1a121a;
+  --color-dark-text: #f3f4f6;
+  --color-dark-text-light: #9ca3af;
+  --color-dark-border: #2d1b2d;
+  
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)] font-[var(--font-body)] transition-colors duration-300;
+  }
+  
+  .dark body {
+    @apply bg-[var(--color-dark-bg)] text-[var(--color-dark-text)];
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-[var(--font-display)] font-bold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .card-light {
+    @apply bg-[var(--color-card)] border border-[var(--color-border)];
+  }
+  
+  .dark .card-light {
+    @apply bg-[var(--color-dark-card)] border-[var(--color-dark-border)];
+  }
+  
+  .text-primary {
+    @apply text-[var(--color-primary)];
+  }
+  
+  .dark .text-primary {
+    @apply text-[var(--color-dark-primary)];
+  }
+  
+  .bg-primary {
+    @apply bg-[var(--color-primary)];
+  }
+  
+  .dark .bg-primary {
+    @apply bg-[var(--color-dark-primary)];
+  }
+  
+  .text-secondary {
+    @apply text-[var(--color-text-light)];
+  }
+  
+  .dark .text-secondary {
+    @apply text-[var(--color-dark-text-light)];
+  }
+}
