@@ -43,8 +43,8 @@ export default function Contact() {
     {
       icon: Mail,
       label: 'Email',
-      value: 'janeth.ayala@nutricion.com',
-      href: 'mailto:janeth.ayala@nutricion.com',
+      value: 'nut.jayala@gmail.com',
+      href: 'mailto:nut.jayala@gmail.com',
     }
   ]
 
