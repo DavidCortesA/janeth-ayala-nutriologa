@@ -23,10 +23,25 @@ export const metadata: Metadata = {
   description: 'Nutrióloga certificada especializada en planes personalizados. Transforma tu salud con asesoría nutricional profesional en Nuevo León, México.',
   keywords: ['nutrióloga', 'nutrición', 'Janeth Ayala', 'planes alimenticios', 'IMC', 'salud', 'Nuevo León', 'México', 'nutricionista', 'monterrey', 'nutrióloga regiomontana'],
   authors: [{ name: 'Lic. Janeth Ayala' }],
+  viewport: 'width=device-width, initial-scale=1',
+  manifest: '/manifest.json',
+  themeColor: '#10b981',
+  icons: {
+    icon: '/icon/icon.png',
+    apple: '/icon/icon.png',
+  },
   openGraph: {
     title: 'Lic. Janeth Ayala - Nutrióloga Certificada',
     description: 'Transforma tu salud con planes nutricionales personalizados',
     type: 'website',
+    images: [
+      {
+        url: './opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Lic. Janeth Ayala - Nutrióloga Certificada',
+      }
+    ]
   },
 }
 
