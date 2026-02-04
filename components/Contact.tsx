@@ -12,47 +12,38 @@ export default function Contact() {
     email: '',
     telefono: '',
     mensaje: '',
-  })
-  const [showSuccess, setShowSuccess] = useState(false)
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    resend.emails.send({
-      from: 'Lic. Janeth Ayala <onboarding@resend.dev>',
-      to: 'nut.jayala@gmail.com',
-      subject: 'Nuevo mensaje de contacto',
-      html: `
-        <h1>Nuevo mensaje de contacto</h1>
-        <p><strong>Nombre:</strong> ${formData.nombre}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Teléfono:</strong> ${formData.telefono}</p>
-        <p><strong>Mensaje:</strong> ${formData.mensaje}</p>
-      `,
-    })
-    
-    console.log('Form submitted:', formData)
-    
-    setShowSuccess(true)
-    setFormData({
-      nombre: '',
-      email: '',
-      telefono: '',
-      mensaje: '',
-    })
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ nombre: '', email: '', telefono: '', mensaje: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
 
-    setTimeout(() => {
-      setShowSuccess(false)
-    }, 5000)
-  }
+    setTimeout(() => setStatus('idle'), 5000);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const contactInfo = [
     {
@@ -114,10 +105,10 @@ export default function Contact() {
                   <input
                     type="text"
                     id="nombre"
-                    name="name"
+                    name="nombre"
                     value={formData.nombre}
-                    onChange={handleChange}
                     required
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-2xl border-2 card-light focus:border-[var(--color-primary)] focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/10 transition-all"
                     placeholder="Tu nombre"
                   />
@@ -146,7 +137,7 @@ export default function Contact() {
                   <input
                     type="tel"
                     id="telefono"
-                    name="phone"
+                    name="telefono"
                     value={formData.telefono}
                     onChange={handleChange}
                     required
@@ -161,7 +152,7 @@ export default function Contact() {
                   </label>
                   <textarea
                     id="mensaje"
-                    name="message"
+                    name="mensaje"
                     value={formData.mensaje}
                     onChange={handleChange}
                     rows={5}
@@ -181,7 +172,7 @@ export default function Contact() {
                 </motion.button>
 
                 <AnimatePresence>
-                  {showSuccess && (
+                  {status === 'success' && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -190,6 +181,16 @@ export default function Contact() {
                     >
                       <CheckCircle2 size={24} />
                       <p className="font-semibold">¡Mensaje enviado! Me pondré en contacto pronto.</p>
+                    </motion.div>
+                  )}
+                  {status === 'error' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="bg-red-500 text-white p-4 rounded-2xl flex items-center gap-3"
+                    >
+                      <p className="font-semibold">Error al enviar el mensaje. Por favor, inténtalo de nuevo.</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
