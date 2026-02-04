@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Send, Mail, Phone, MapPin, CheckCircle2, MessageSquare } from 'lucide-react'
 import Image from 'next/image'
+import { Resend } from 'resend';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,20 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    resend.emails.send({
+      from: 'Lic. Janeth Ayala <onboarding@resend.dev>',
+      to: 'nut.jayala@gmail.com',
+      subject: 'Nuevo mensaje de contacto',
+      html: `
+        <h1>Nuevo mensaje de contacto</h1>
+        <p><strong>Nombre:</strong> ${formData.nombre}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Teléfono:</strong> ${formData.telefono}</p>
+        <p><strong>Mensaje:</strong> ${formData.mensaje}</p>
+      `,
+    })
     
     console.log('Form submitted:', formData)
     
